@@ -5,7 +5,8 @@ import de.scravy.jazz.UpdateHandler;
 public class PacManUpdater implements UpdateHandler<PacManWorld> {
 
   @Override
-  public void update(PacManWorld w, double time, double delta) {
+  public PacManWorld update(final PacManWorld w, final double time,
+      final double delta) {
 
     w.worldRotation = time;
     w.mouthOpening = Math.abs(30 * Math.sin(time * 5));
@@ -25,6 +26,8 @@ public class PacManUpdater implements UpdateHandler<PacManWorld> {
     if (w.posPacManY < w.height / -2) {
       w.posPacManY += w.height;
     }
+
+    return w;
   }
 
 }

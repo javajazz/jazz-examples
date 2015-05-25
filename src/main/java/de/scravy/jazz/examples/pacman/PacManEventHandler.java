@@ -7,7 +7,7 @@ import de.scravy.jazz.EventHandler;
 public class PacManEventHandler implements EventHandler<PacManWorld> {
 
   @Override
-  public void on(PacManWorld w, Event e) {
+  public PacManWorld on(final PacManWorld w, final Event e) {
     switch (e.getType()) {
 
     case WINDOW_OPENED:
@@ -38,7 +38,7 @@ public class PacManEventHandler implements EventHandler<PacManWorld> {
     default:
       break;
     }
-
+    return w;
   }
 
 }

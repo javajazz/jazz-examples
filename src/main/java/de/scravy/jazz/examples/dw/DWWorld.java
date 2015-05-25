@@ -8,10 +8,10 @@ import java.util.List;
 
 import de.scravy.jazz.Color;
 import de.scravy.jazz.Event;
+import de.scravy.jazz.Event.Type;
 import de.scravy.jazz.Jazz;
 import de.scravy.jazz.Picture;
 import de.scravy.jazz.World;
-import de.scravy.jazz.Event.Type;
 import de.scravy.jazz.grids.DefaultTileFactory;
 import de.scravy.jazz.grids.HexagonGrid;
 import de.scravy.jazz.grids.TileDecorator;
@@ -39,7 +39,7 @@ public class DWWorld extends World {
 
   }
 
-  private void init(int numPlayers, int each) {
+  private void init(final int numPlayers, final int each) {
 
     grid = new HexagonGrid<DWTile>(
 
@@ -47,7 +47,7 @@ public class DWWorld extends World {
 
         new TileDecorator<DWTile>() {
           @Override
-          public Picture decorate(DWTile tile, Picture picture) {
+          public Picture decorate(final DWTile tile, final Picture picture) {
             if (tile == null) {
               return picture;
             }
@@ -57,21 +57,21 @@ public class DWWorld extends World {
 
         new TileEventHandler<DWTile>() {
           @Override
-          public void on(Event ev, DWTile tile) {
-
+          public DWTile on(final Event ev, final DWTile tile) {
+            return tile;
           }
         },
 
         15, 30, 25);
 
-    Deque<Color> colors = new ArrayDeque<>();
+    final Deque<Color> colors = new ArrayDeque<>();
 
     for (int i = 0; i < numPlayers; i++) {
       colors.add(DWWorld.colors.get(i));
     }
 
-    List<DWTile> tiles = new ArrayList<DWTile>(32);
-    for (Color c : colors) {
+    final List<DWTile> tiles = new ArrayList<DWTile>(32);
+    for (final Color c : colors) {
       for (int j = 0; j < each; j++) {
         tiles.add(new DWTile(c));
       }
@@ -80,15 +80,15 @@ public class DWWorld extends World {
 
     int n = grid.getWidth() * grid.getHeight();
 
-    int countries = (int) Math.ceil(Math.sqrt(colors.size() * each));
-    int w = grid.getWidth() / countries;
-    int h = grid.getHeight() / countries;
+    final int countries = (int) Math.ceil(Math.sqrt(colors.size() * each));
+    final int w = grid.getWidth() / countries;
+    final int h = grid.getHeight() / countries;
 
-    Iterator<DWTile> tilesIt = tiles.iterator();
+    final Iterator<DWTile> tilesIt = tiles.iterator();
     for (int i = 0; i < countries; i++) {
       for (int j = 0; j < countries; j++) {
-        int x = i * w + Jazz.randomInt(w);
-        int y = j * h + Jazz.randomInt(h);
+        final int x = i * w + Jazz.randomInt(w);
+        final int y = j * h + Jazz.randomInt(h);
 
         if (tilesIt.hasNext()) {
           grid.setTileAt(x, y, tilesIt.next());
@@ -101,23 +101,23 @@ public class DWWorld extends World {
       for (int i = 0; i < grid.getWidth(); i++) {
         for (int j = 0; j < grid.getHeight(); j++) {
 
-          TilePos p = new TilePos(i, j);
-          DWTile t = grid.getTileAt(p);
+          final TilePos p = new TilePos(i, j);
+          final DWTile t = grid.getTileAt(p);
 
           if (t == null) {
             continue;
           }
 
-          List<Integer> xs = new ArrayList<Integer>();
+          final List<Integer> xs = new ArrayList<Integer>();
           for (int k = 0; k < 6; k++) {
             xs.add(k);
           }
           Jazz.shuffle(xs);
 
-          neighbors: for (int x : xs) {
+          neighbors: for (final int x : xs) {
             switch (x) {
             case 0: {
-              TilePos p2 = grid.right(p);
+              final TilePos p2 = grid.right(p);
               if (p2 != null && grid.getTileAt(p2) == null) {
                 grid.setTileAt(p2, t);
                 n--;
@@ -126,7 +126,7 @@ public class DWWorld extends World {
               break;
             }
             case 1: {
-              TilePos p2 = grid.topRight(p);
+              final TilePos p2 = grid.topRight(p);
               if (p2 != null && grid.getTileAt(p2) == null) {
                 grid.setTileAt(p2, t);
                 n--;
@@ -135,7 +135,7 @@ public class DWWorld extends World {
               break;
             }
             case 2: {
-              TilePos p2 = grid.topLeft(p);
+              final TilePos p2 = grid.topLeft(p);
               if (p2 != null && grid.getTileAt(p2) == null) {
                 grid.setTileAt(p2, t);
                 n--;
@@ -144,7 +144,7 @@ public class DWWorld extends World {
               break;
             }
             case 3: {
-              TilePos p2 = grid.left(p);
+              final TilePos p2 = grid.left(p);
               if (p2 != null && grid.getTileAt(p2) == null) {
                 grid.setTileAt(p2, t);
                 n--;
@@ -153,7 +153,7 @@ public class DWWorld extends World {
               break;
             }
             case 4: {
-              TilePos p2 = grid.bottomLeft(p);
+              final TilePos p2 = grid.bottomLeft(p);
               if (p2 != null && grid.getTileAt(p2) == null) {
                 grid.setTileAt(p2, t);
                 n--;
@@ -162,7 +162,7 @@ public class DWWorld extends World {
               break;
             }
             case 5: {
-              TilePos p2 = grid.bottomRight(p);
+              final TilePos p2 = grid.bottomRight(p);
               if (p2 != null && grid.getTileAt(p2) == null) {
                 grid.setTileAt(p2, t);
                 n--;
@@ -186,12 +186,12 @@ public class DWWorld extends World {
   }
 
   @Override
-  public void update(double time, double delta) {
+  public void update(final double time, final double delta) {
 
   }
 
   @Override
-  public void on(Event ev) {
+  public void on(final Event ev) {
     if (ev.getType() == Type.CLICK) {
       init(8, 4);
     }
