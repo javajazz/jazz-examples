@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.scravy</groupId>
-	<artifactId>jazz</artifactId>
+	<artifactId>jazz-examples</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>Jazz</name>
+	<name>Jazz Examples</name>
 	<url>http://scravy.github.io/Jazz</url>
 	<description>
         An easy drawing library for Java using Swing for drawing (therefor Jazz).
